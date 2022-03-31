@@ -9,11 +9,13 @@ Team = Teams()
 
 #input for the team names
 #team name inputs in all caps, "-" replaces spaces
+"""
 input1 = input('Team 1: ') 
 input2 = input('Team 2: ')
 #set input to teams
 Team1 = Team(input1)
 Team2 = Team(input2)
+"""
 #calculate tempo average
 def tempo(Team):
     tempo = (Team.field_goal_attempts) + (.475*Team.free_throw_attempts) - (Team.offensive_rebounds) + (Team.turnovers)
@@ -74,7 +76,7 @@ def predictScore(Team1, Team2):
     print(Team2.abbreviation + ":", Score2)
 
 
-
+"""
 print()
 print(input1 ,'off efficiency: ', offensiveEfficiency(Team1))
 print(input1, 'def efficienty: ', defensiveEfficiency(Team1))
@@ -89,4 +91,4 @@ print()
 print('adjust tempo: ', adjustTempo(Team1,Team2))
 print()
 predictScore(Team1, Team2)
-
+"""

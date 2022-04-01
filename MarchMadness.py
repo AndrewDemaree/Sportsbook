@@ -71,9 +71,11 @@ def predictScore(Team1, Team2):
     Score2 = (adjustOffEfficiency(Team2, Team1)/100) * adjustedTemp
     Score1 += teamVariable(Team1, Team2)
     Score2 += teamVariable(Team2, Team1)
+    scores = [Score1,Score2]
 
-    print(Team1.abbreviation + ":", Score1)
-    print(Team2.abbreviation + ":", Score2)
+    #print(Team1.abbreviation + ":", Score1)
+    #print(Team2.abbreviation + ":", Score2)
+    return(scores)
 
 
 """

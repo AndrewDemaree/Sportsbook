@@ -1,5 +1,4 @@
-from calendar import month
-from tkinter import E
+
 from sportsipy.ncaab.teams import Teams
 from sportsipy.ncaab.roster import Player
 from sportsipy.ncaab.roster import Roster

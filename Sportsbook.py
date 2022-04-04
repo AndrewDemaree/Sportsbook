@@ -255,7 +255,9 @@ def firstBasket():
         txtFile.write('You Bet $' + str(amt) + ' and lost' + '\n')
     return winner
     
-
+    userInterface()
+    
+    
 #Bet which team wins the tip
 def tipOff():
     team = 'UNC'
@@ -288,6 +290,8 @@ def tipOff():
         txtFile.write('You Bet $' + str(amt) + ' and lost' + '\n')
     return winner
 
+    userInterface()
+    
 
 #Bet if game goes into OT
 def overtime(choice, amt):

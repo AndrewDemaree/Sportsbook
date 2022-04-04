@@ -9,9 +9,39 @@ import random
 
 txtFile = open('Bets.txt','w')
 
+
+def makeBet(amt, winnings):
+    txtFile.write('Bet $' + str(amt) + ' on player points to win $' + str(winnings) + '\n')
+
 #Accept a plus minus bet
-def plusMinus(team, amt):
-    return
+def plusMinus():
+    teams = Teams()
+    userchoice = input('Choose a Team (Kansas or North-Carolina): ').upper()
+
+    for team in teams:
+        if team.abbreviation == userchoice:
+            if userchoice == "KANSAS":
+                prefix = "-"
+            if userchoice == "NORTH-CAROLINA":
+                prefix = "+"
+            pointsdiffential = team.points - team.opp_points
+            projectedwinningpercentage = round((100 - ((pointsdiffential * 2.7) + 41) / 82))
+            odds = prefix + str(100 + projectedwinningpercentage)
+            bet = input(
+                "The odds are " + odds + " , enter bet amount in multiples of one-hundred, plus " + odds[1:] + ":")
+
+            if prefix == "+":
+                add = (int(odds[1:]) - 100)
+                factor = (int(bet) - add) / 100
+                winnings = factor * 100 + add * factor
+                print("Winnings: " + str(winnings))
+                # txtFile.write('Bet $' + str(bet) + ' plus/minus to win $' + str(winnings) + '\n')
+            if prefix == "-":
+                print((int(bet) - projectedwinningpercentage) / 10)
+                winnings = ((int(bet) - projectedwinningpercentage) / 10) * projectedwinningpercentage
+                print("Winnings: " + str(winnings))
+                txtFile.write('Bet $' + str(bet) + ' plus/minus to win $' + str(winnings) + '\n')
+            break
 
 #Accept a money line bet
 def moneyLine(team, amt):
@@ -19,7 +49,28 @@ def moneyLine(team, amt):
 
 #Accept a over/under bet
 def overUnder(choice, amt):
-    return
+    score1 = scores[0]
+    score2 = scores[1]
+    line1=-100
+    line2=-100
+
+    if (score1 > score2):
+        sDiff = score1 - score2
+        line1 = 100
+        line2 = -100
+        line1+= sDiff * 40
+        line2+= -(sDiff * 40)
+    else:
+        sDiff = score2 - score1
+        line1 = -100
+        line2 = 100
+        line1+= -(sDiff * 40) - 10
+        line2+= sDiff * 40 + 10
+
+    lines=[]
+    lines.append(line1)
+    lines.append(line2)
+    return lines
 
 #Accept a bet on player points
 #Bets are made on an over/under line for predicted player points
@@ -233,11 +284,43 @@ def tipOff(team, amt):
 
 #Bet if game goes into OT
 def overtime(choice, amt):
-    return
+    score1 = scores[0]
+    score2 = scores[1]
+
+    if (score1 > score2):
+        sDiff = score1 - score2
+    else:
+        sDiff = score2 - score1
+    
+    line1 = 300
+    line1 += sDiff * 40
+
+    lines=[]
+    lines.append(line1)
+    return lines
 
 #Bet on color of coaches shoes
-def coachShoes(choice, amt):
-    return
+def coachShoes():
+    teams = ["KANSAS", "UNC"]
+    colors = ["BLUE", "BLACK", "WHITE"]
+    odds = [[[0.1], [0.1], [0.8]], [[0.8], [0.1], [0.1]]]
+    usrchoice = input("Enter Team name (UNC or Kansas):").upper()
+    shoecolor = input("Enter shoe color (blue, black, or white):").upper()
+    amt = input("Enter bet amount:")
+
+    for team in teams:
+        if team == usrchoice:
+            first = teams.index(str(team))
+            break
+
+    for color in colors:
+        if color == shoecolor.upper():
+            odd = odds[first][colors.index(str(color))][0]
+            winnings = int(amt) * odd + int(amt)
+            payout = "$" + str(winnings)
+            print('Winnings: ' + payout)
+            txtFile.write('Bet $' + str(amt) + ' to win $' + str(winnings) + ' on shoe color ' + str(color) + '\n')
+            break
 
 #Set up basic command line interface
 def userInterface():

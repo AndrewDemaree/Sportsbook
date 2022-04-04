@@ -9,8 +9,6 @@ import random
 txtFile = open('Bets.txt','w')
 
 
-def makeBet(amt, winnings):
-    txtFile.write('Bet $' + str(amt) + ' on player points to win $' + str(winnings) + '\n')
 
 #Accept a plus minus bet
 def plusMinus():
@@ -40,14 +38,15 @@ def plusMinus():
                 winnings = ((int(bet) - projectedwinningpercentage) / 10) * projectedwinningpercentage
                 print("Winnings: " + str(winnings))
                 txtFile.write('Bet $' + str(bet) + ' plus/minus to win $' + str(winnings) + '\n')
-            break
+            
+            userInterface()
 
 #Accept a money line bet
-def moneyLine(team, amt):
+def moneyLine():
     return
 
 #Accept a over/under bet
-def overUnder(choice, amt):
+def overUnder():
     score1 = scores[0]
     score2 = scores[1]
     line1=-100
@@ -79,7 +78,7 @@ def playerPoints(amt):
     
     betAmt = amt
     #Get player that user wants to bet on
-    team = input('Choose a Team: ')
+    team = input('Choose a Team (KANSAS or NORTH-CAROLINA): ')
     if team == 'KANSAS':
         print(
         '''
@@ -106,11 +105,13 @@ def playerPoints(amt):
 
 
         if input2 == 'u' or input2 == 'U':
+            betType = 'under'
             winnings  =  amt + (amt * ((-1 * underOdds) / 100))
-            txtFile.write('Bet $' + str(amt) + ' on player points to win $' + str(winnings)+ '\n')
+            txtFile.write('Bet $' + str(amt) + ' on '+ Player(player).name + ' '+ betType + ' '+ str(pointLine)+' points bet to win $' + str(winnings)+ '\n')
         if input2 == 'o' or input2 == 'O':
+            betType = 'over'
             winnings = amt + ((amt*overOdds) / 100)
-            txtFile.write('Bet $' + str(amt) + ' on player points to win $' + str(winnings) + '\n')
+            txtFile.write('Bet $' + str(amt) + ' on '+ Player(player).name + ' '+ betType + ' '+ str(pointLine)+' points bet to win $' + str(winnings)+ '\n')
         
         userInterface()
 
@@ -137,11 +138,13 @@ def playerPoints(amt):
         underOdds = -180
         overOdds = +220
         if input2 == 'u' or input2 == 'U':
+            betType = 'under'
             winnings  =  amt + (amt * ((-1 * underOdds) / 100))
-            txtFile.write('Bet $' + str(amt) + ' on player points bet to win ' + str(winnings)+ '\n')
+            txtFile.write('Bet $' + str(amt) + ' on '+ Player(player).name + ' '+ betType + ' '+ str(pointLine)+' points bet to win $' + str(winnings)+ '\n')
         if input2 == 'o' or input2 == 'O':
+            betType = 'over'
             winnings = amt + ((amt*overOdds) / 100)
-            txtFile.write('Bet $' + str(amt) + ' on player points bet to win $' + str(winnings)+ '\n')
+            txtFile.write('Bet $' + str(amt) + ' on '+ Player(player).name + ' '+ betType + ' '+ str(pointLine)+' points bet to win $' + str(winnings)+ '\n')
 
         userInterface()
         
@@ -156,7 +159,7 @@ def playerAssists(amt):
     
     betAmt = amt
     #Get player that user wants to bet on
-    team = input('Choose a Team: ')
+    team = input('Choose a Team (KANSAS or NORTH-CAROLINA): ')
     if team == 'KANSAS':
         print(
         '''
@@ -176,7 +179,7 @@ def playerAssists(amt):
         playerAvg = round(playerAvg)
         #set line to average plus .5 assists
         assistLine = float(playerAvg) + .5
-        input2 = input('Line set at ' +  str(assistLine) +  ' points. Do you want to bet the over or under? (o or u): ' )
+        input2 = input('Line set at ' +  str(assistLine) +  ' assists. Do you want to bet the over or under? (o or u): ' )
         print()
 
         underOdds = -120
@@ -184,11 +187,15 @@ def playerAssists(amt):
 
 
         if input2 == 'u' or input2 == 'U':
+            betType = 'under'
             winnings  =  amt + (amt * ((-1 * underOdds) / 100))
-            txtFile.write('Bet $' + str(amt) + ' on player assists bet to win $' + str(winnings) + '\n')
+            txtFile.write('Bet $' + str(amt) + ' on '+ Player(player).name + ' '+ betType + ' '+ str(assistLine)+' assists bet to win $' + str(winnings)+ '\n')
+
         if input2 == 'o' or input2 == 'O':
+            betType = 'over'
             winnings = amt + ((amt*overOdds) / 100)
-            txtFile.write('Bet $' + str(amt) + ' on player assists bet to win $' + str(winnings) + '\n')
+            txtFile.write('Bet $' + str(amt) + ' on '+ Player(player).name + ' '+ betType + ' '+ str(assistLine)+' assists bet to win $' + str(winnings)+ '\n')
+
 
         userInterface()
 
@@ -210,17 +217,21 @@ def playerAssists(amt):
         playerAvg = round(playerAvg)
         #set line to average plus .5 assists
         assistLine = float(playerAvg) + .5
-        input2 = input('Line set at ' +  str(assistLine) +  ' points. Do you want to bet the over or under? (o or u): ' )
+        input2 = input('Line set at ' +  str(assistLine) +  ' assists. Do you want to bet the over or under? (o or u): ' )
         print()
 
         underOdds = -100
         overOdds = +100
         if input2 == 'u' or input2 == 'U':
+            betType = 'under'
             winnings  =  amt + (amt * ((-1 * underOdds) / 100))
-            txtFile.write('Bet $' + str(amt) + ' on player assists to win ' + str(winnings)+ '\n')
+            txtFile.write('Bet $' + str(amt) + ' on '+ Player(player).name + ' '+ betType + ' '+ str(assistLine)+' assists bet to win $' + str(winnings)+ '\n')
+
         if input2 == 'o' or input2 == 'O':
+            betType = 'over'
             winnings = amt + ((amt*overOdds) / 100)
-            txtFile.write('Bet $' + str(amt) + ' on player assists to win $' + str(winnings)+ '\n')
+            txtFile.write('Bet $' + str(amt) + ' on '+ Player(player).name + ' '+ betType + ' '+ str(assistLine)+' assists bet to win $' + str(winnings)+ '\n')
+
         
         userInterface()
 
@@ -249,15 +260,14 @@ def firstBasket():
     teams = [team, opponent]
     if first_basket == team:
         winner = amount
-        txtFile.write('Bet $' + str(amt) + ' on m which team scores first to win $' + str(amount) + '\n')
+        txtFile.write('Bet $' + str(amt) + ' on which team scores first to win $' + str(amount) + '\n')
     else:
         winner = opponent
-        txtFile.write('You Bet $' + str(amt) + ' and lost' + '\n')
+        txtFile.write('You Bet $' + str(amt) + '\n')
+    userInterface()
     return winner
     
-    userInterface()
-    
-    
+
 #Bet which team wins the tip
 def tipOff():
     team = 'UNC'
@@ -287,14 +297,13 @@ def tipOff():
         txtFile.write('Bet $' + str(amt) + ' on which team wins the tip off to win $' + str(amount) + '\n')
     else:
         winner = opponent
-        txtFile.write('You Bet $' + str(amt) + ' and lost' + '\n')
+        txtFile.write('You Bet $' + str(amt) + '\n')
+    userInterface()
     return winner
 
-    userInterface()
-    
 
 #Bet if game goes into OT
-def overtime(choice, amt):
+def overtime():
     score1 = scores[0]
     score2 = scores[1]
 
@@ -308,6 +317,7 @@ def overtime(choice, amt):
 
     lines=[]
     lines.append(line1)
+    print(lines)
     return lines
 
 #Bet on color of coaches shoes
@@ -331,6 +341,7 @@ def coachShoes():
             payout = "$" + str(winnings)
             print('Winnings: ' + payout)
             txtFile.write('Bet $' + str(amt) + ' to win $' + str(winnings) + ' on shoe color ' + str(color) + '\n')
+            userInterface()
             break
 
 #Set up basic command line interface
@@ -350,10 +361,10 @@ def userInterface():
     )
     choice = input("Choose which bet you want to make (number by bet) or type e to exit: ")
     if choice == 'e' or choice == 'E':
+        print('Your bets are saved to Bets.txt \n')
         print('Thanks for betting!')
         exit()
-    money = input("Choose how much you want to bet: ")
-    betAmt = int(money)
+    
     if choice == '1':
         plusMinus()
     if choice == '2':
@@ -361,8 +372,12 @@ def userInterface():
     if choice == '3':
         overUnder()
     if choice == '4':
+        money = input("Choose how much you want to bet: ")
+        betAmt = int(money)
         playerPoints(betAmt)
     if choice == '5':
+        money = input("Choose how much you want to bet: ")
+        betAmt = int(money)
         playerAssists(betAmt)
     if choice == '6':
         firstBasket()

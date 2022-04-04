@@ -2,7 +2,7 @@
 from sportsipy.ncaab.teams import Teams
 from sportsipy.ncaab.roster import Player
 from sportsipy.ncaab.roster import Roster
-import MarchMadness
+
 import numpy
 import random
 
@@ -43,32 +43,61 @@ def plusMinus():
 
 #Accept a money line bet
 def moneyLine():
-    return
+    uncOdds = +130
+    kansasOdds = -208
+    choice = input('What team do you think will win (KANSAS or NORTH-CAROLINA): ')
+    bet = input('How much do you want to bet?: ')
+    amt = int(bet)
+
+    if choice == 'KANSAS' or choice == 'Kansas':
+        odds = kansasOdds
+        winnings =  amt + (amt / ( -1 * odds / 100))
+    if choice == 'NORTH-CAROLINA' or choice == 'North-Carolina':
+        odds = uncOdds
+        winnings = amt + (amt * odds / 100)
+
+    txtFile.write('Bet $' + str(bet) + ' on ' + choice + ' ML to win $' + str(round(winnings)) + '\n')
+    userInterface()
 
 #Accept a over/under bet
-def overUnder():
+def overUnder(amt):
+    scores = [84,76]
     score1 = scores[0]
     score2 = scores[1]
+
+
     line1=-100
     line2=-100
 
     if (score1 > score2):
         sDiff = score1 - score2
-        line1 = 100
-        line2 = -100
-        line1+= sDiff * 40
-        line2+= -(sDiff * 40)
+
     else:
         sDiff = score2 - score1
-        line1 = -100
-        line2 = 100
-        line1+= -(sDiff * 40) - 10
-        line2+= sDiff * 40 + 10
 
-    lines=[]
-    lines.append(line1)
-    lines.append(line2)
-    return lines
+    if sDiff >= 5:
+
+        overOdds = +220
+        underOdds = -180
+    else:
+        overOdds = +200
+        underOdds = -140
+
+    # VIG
+    overOdds += 10
+    underOdds += -10
+
+
+    pointLine = round(score1 + score2) + .5
+    choice = input('Line set at ' +  str(pointLine) +  ' points. Do you want to bet the over or under? (o or u): ' )
+
+    if choice == 'u' or choice == 'U':
+        winnings  =  amt + (amt / ( -1 * underOdds / 100))
+        txtFile.write('Bet $' + str(amt) + ' on score under prediction to win $' + str(round(winnings))+ '\n')
+    if choice == 'o' or choice == 'O':
+        winnings = amt + (amt * overOdds / 100)
+        txtFile.write('Bet $' + str(amt) + '  on score over prediction to win $' + str(round(winnings))+ '\n')
+    userInterface()
 
 #Accept a bet on player points
 #Bets are made on an over/under line for predicted player points
@@ -303,7 +332,8 @@ def tipOff():
 
 
 #Bet if game goes into OT
-def overtime():
+def overtime(amt):
+    scores = [84,76]
     score1 = scores[0]
     score2 = scores[1]
 
@@ -312,13 +342,27 @@ def overtime():
     else:
         sDiff = score2 - score1
     
-    line1 = 300
+    line1 = 200
     line1 += sDiff * 40
+    line2 = -600
 
-    lines=[]
-    lines.append(line1)
-    print(lines)
-    return lines
+
+    #pointLine = round(score1 + score2) + .5
+    choice = input('Line set at ' +  str(line1) +  ' to go into OT or ' + str(line2) + " to not go into OT, y to predict it will go into OT, any other key to predict otherwise " )
+
+    if choice == 'y' or choice == 'Y':
+        #winnings = amt 
+        winnings = amt + (amt * line1 / 100)
+        txtFile.write('Bet $' + str(amt) + '  on score ending in OT to win $' + str(round(winnings))+ '\n')
+
+    else:
+       
+        winnings  =  amt + (amt / ( -1 * line2 / 100))
+        txtFile.write('Bet $' + str(amt) + ' on game ending without OT to win $' + str(round(winnings))+ '\n')
+    userInterface()
+
+
+
 
 #Bet on color of coaches shoes
 def coachShoes():
@@ -345,6 +389,7 @@ def coachShoes():
             break
 
 #Set up basic command line interface
+
 def userInterface():
     print(
         '''
@@ -361,7 +406,7 @@ def userInterface():
     )
     choice = input("Choose which bet you want to make (number by bet) or type e to exit: ")
     if choice == 'e' or choice == 'E':
-        print('Your bets are saved to Bets.txt \n')
+        print('Bets saved to Bets.txt \n')
         print('Thanks for betting!')
         exit()
     
@@ -370,7 +415,9 @@ def userInterface():
     if choice == '2':
         moneyLine()
     if choice == '3':
-        overUnder()
+        money = input("Choose how much you want to bet: ")
+        betAmt = int(money)
+        overUnder(betAmt)
     if choice == '4':
         money = input("Choose how much you want to bet: ")
         betAmt = int(money)
@@ -384,10 +431,13 @@ def userInterface():
     if choice == '7':
         tipOff()
     if choice == '8':
-        overtime()
+        money = input("Choose how much you want to bet: ")
+        betAmt = int(money)
+        overtime(betAmt)
     if choice == '9':
         coachShoes()
-    
 
 
+userName = input('Enter your name: ')
+txtFile.write('Name: '+ userName + '\n')
 userInterface()

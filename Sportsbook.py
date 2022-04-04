@@ -225,11 +225,14 @@ def playerAssists(amt):
         userInterface()
 
 #Bet which team scores first
-def firstBasket(team, amt):
+def firstBasket():
+    team = 'UNC'
     opponent = 'you lost'
+    userchoice = input("Enter Team name:")
+    amt = int(input('Enter bet:'))
     tip_win = random.choice([team, opponent])
     first_basket = numpy.random.choice([team, opponent], p=[.60, .40])
-    team_pts_avg = 79 # Kansas... I could pull from sportsipy instead too.
+    team_pts_avg = 79 # Kansas
     opponent_pts_avg = 78 #UNC
     add_avg = team_pts_avg + opponent_pts_avg
     diff = team_pts_avg - opponent_pts_avg
@@ -240,20 +243,24 @@ def firstBasket(team, amt):
         added = abs(added)
         odds = 100 + added
     if odds < 0:
-        amt = amt + (amt * ((-1 * odds) / 100))
+        amount = amt + (amt * ((-1 * odds) / 100))
     else:
-        amt = amt + ((amt * odds) / 100)
+        amount = amt + ((amt * odds) / 100)
     teams = [team, opponent]
-    print(odds)
     if first_basket == team:
-        winner = amt
+        winner = amount
+        txtFile.write('Bet $' + str(amt) + ' on m which team scores first to win $' + str(amount) + '\n')
     else:
         winner = opponent
+        txtFile.write('You Bet $' + str(amt) + ' and lost' + '\n')
     return winner
     
 
 #Bet which team wins the tip
-def tipOff(team, amt):
+def tipOff():
+    team = 'UNC'
+    userchoice = input("Enter Team name:")
+    amt = int(input('Enter bet:'))
     opponent = 'You lost'
     player1_h = 84 #Kansas Udoka height in inches
     player2_h = 82 # UNC Bacot
@@ -266,18 +273,19 @@ def tipOff(team, amt):
         added = abs(added)
         odds = 100 + added
     if odds < 0:
-        amt = amt + (amt * ((-1 * odds) / 100))
+        amount = amt + (amt * ((-1 * odds) / 100))
     else:
-        amt = amt + ((amt * odds) / 100)
-    print(odds)
+        amount = amt + ((amt * odds) / 100)
     teams = [team, opponent]
     weight1 = player1_h / add_h
     weight2 = player2_h / add_h
     tipoff = numpy.random.choice(teams, p = [weight1, weight2])
     if tipoff == team:
-        winner = amt
+        winner = amount
+        txtFile.write('Bet $' + str(amt) + ' on which team wins the tip off to win $' + str(amount) + '\n')
     else:
         winner = opponent
+        txtFile.write('You Bet $' + str(amt) + ' and lost' + '\n')
     return winner
 
 
